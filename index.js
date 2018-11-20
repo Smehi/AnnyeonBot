@@ -180,7 +180,21 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
 
 **Now playing:** ${serverQueue.songs[0].title}
 		`);
-	} 
+	} else if (command === 'pause') {
+		if (serverQueue && serverQueue.playing) {
+			serverQueue.playing = false;
+			serverQueue.connection.dispatcher.pause();
+			return msg.channel.send('⏸ Paused the music for you!');
+		}
+		return msg.channel.send('There is nothing playing.');
+	} else if (command === 'resume') {
+		if (serverQueue && !serverQueue.playing) {
+			serverQueue.playing = true;
+			serverQueue.connection.dispatcher.resume();
+			return msg.channel.send('▶ Resumed the music for you!');
+		}
+		return msg.channel.send('There is nothing playing.');
+	}
 });
 
 
